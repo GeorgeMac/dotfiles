@@ -1,5 +1,5 @@
 " GeorgeMac .vimrc "
-
+set encoding=utf-8
 set nocompatible
 filetype off
 
@@ -50,6 +50,7 @@ au Filetype go set tabstop=4 shiftwidth=4 expandtab
 """ CtrlP Configuration
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_show_hidden = 1
 """
 
 """ Syntastic
@@ -61,6 +62,10 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = { 'mode': 'active' }
+let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+let g:syntastic_cucumber_cucumber_args="--profile syntastic"
+let g:syntastic_warning_symbol = "⚠"
 """
 
 """ Vim-Go
@@ -79,6 +84,7 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 """
 
 """ Airline
+let g:airline_powerline_fonts = 1
 set laststatus=2
 set statusline=%<%f\                     " Filename
 set statusline+=%w%h%m%r                 " Options
@@ -101,4 +107,8 @@ nnoremap <silent> <leader>ge :Gedit<CR>
 " Mnemonic _i_nteractive
 nnoremap <silent> <leader>gi :Git add -p %<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
+"""
+
+""" set working directory to that of the current open files directory
+autocmd BufEnter * silent! lcd %:p:h
 """
