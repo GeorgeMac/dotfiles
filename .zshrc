@@ -90,16 +90,21 @@ function cd() {
 
   # when working for the man
   if [[ "$present" == *"work/honeycomb/src"* ]]; then
-    # evaluate docker machine env default
-    dme
-    # get docker machine IP 
-    ip=`dmip 2>/dev/null`
-
     # Service Discovery For Dummys
-    if [[ "$ip" != "" ]]; then
-      export DATABASE_URL="mysql2://$ip:3306"
-      export REDIS_URL="redis://$ip:6379"
-    fi
+    discover
+  fi
+}
+
+function discover() {
+  # evaluate docker machine env default
+  dme
+  # get docker machine IP 
+  ip=`dmip 2>/dev/null`
+
+  # Service Discovery For Dummys
+  if [[ "$ip" != "" ]]; then
+    export DATABASE_URL="mysql2://$ip:3306"
+    export REDIS_URL="redis://$ip:6379"
   fi
 }
 
