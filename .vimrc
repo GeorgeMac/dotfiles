@@ -28,6 +28,16 @@ Plugin 'Shougo/neocomplete.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
+Plugin 'posva/vim-vue'
+
+Plugin 'isRuslan/vim-es6'
+
+Plugin 'hashivim/vim-hashicorp-tools'
+
+Plugin 'b4b4r07/vim-hcl'
+
+Plugin 'aliou/bats.vim'
+
 call vundle#end()
 
 """ Misc
