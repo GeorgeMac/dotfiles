@@ -1,0 +1,42 @@
+bindkey -e
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/Users/admin/.zshrc'
+
+autoload -Uz compinit
+compinit
+
+plugins=(git docker osx ssh-agent)
+
+export PATH="$HOME/dist/go/bin:$PATH"
+export PATH="$PATH:$HOME/.rbenv/bin"
+
+# Node
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
+
+# Vim
+alias vi="/usr/local/bin/vim"
+alias vim="/usr/local/bin/vim"
+
+# Ruby
+eval "$(rbenv init -)"
+
+alias b="bundle"
+alias bi="b install"
+alias be="b exec"
+
+# Functions
+function ccat() {
+  if [ ! $(command -v highlight) ]; then
+    cat "$1"
+  fi
+
+  filename=$(basename "$1")
+  extension="${filename##*.}"
+  if highlight --list-scripts=lang | grep " $extension" 2>&1 >/dev/null; then
+    cat $1 | highlight --syntax $extension -O xterm256 -s zenburn
+  else
+    cat $1
+  fi
+}
