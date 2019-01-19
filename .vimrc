@@ -85,8 +85,30 @@ let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
+let g:go_autodetect_gopath = 0
+let g:go_gocode_propose_source = 0
 
 let g:go_fmt_command = "goimports"
+let g:go_info_mode = 'gocode'
+
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-test-compile)
+
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+
+au FileType go nmap <Leader>as <Plug>(go-alternate-split)
+au FileType go nmap <Leader>av <Plug>(go-alternate-vertical)
+
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+"""
+
+""" Vim-Ruby
+au Filetype ruby nmap <Leader>s :SyntasticToggle<CR>
 """
 
 """ Neocomplete
