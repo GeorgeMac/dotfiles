@@ -19,6 +19,8 @@ Plugin 'tpope/vim-rails'
 
 Plugin 'tpope/vim-rbenv'
 
+Plugin 'SirVer/ultisnips'
+
 Plugin 'fatih/vim-go'
 
 Plugin 'scrooloose/syntastic'
@@ -38,6 +40,8 @@ Plugin 'b4b4r07/vim-hcl'
 
 Plugin 'aliou/bats.vim'
 
+Plugin 'chriskempson/base16-vim'
+
 call vundle#end()
 
 """ Misc
@@ -56,6 +60,11 @@ set number
 set clipboard=unnamed
 set tabstop=2 shiftwidth=2 expandtab
 au Filetype go set tabstop=4 shiftwidth=4 expandtab
+
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
 """
 
 """ CtrlP Configuration
@@ -111,13 +120,9 @@ au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 au Filetype ruby nmap <Leader>s :SyntasticToggle<CR>
 """
 
-""" Neocomplete
-let g:neocomplete#enable_at_startup = 1
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"""
-
 """ Airline
 let g:airline_powerline_fonts = 1
+let g:airline_theme='base16'
 set laststatus=2
 set statusline=%<%f\                     " Filename
 set statusline+=%w%h%m%r                 " Options
