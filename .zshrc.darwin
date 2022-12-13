@@ -1,13 +1,15 @@
 bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
-zstyle :compinstall filename '/Users/admin/.zshrc'
+zstyle :compinstall filename '/Users/georgemac/.zshrc'
 
 autoload -Uz compinit
 compinit
 
-plugins=(git docker osx ssh-agent)
+plugins=(git docker macos ssh-agent kubectl gpg-agent)
 
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PATH="/Users/georgemac/.cargo/bin:$PATH"
 export PATH="$HOME/dist/go/bin:$PATH"
 export PATH="$PATH:$HOME/.rbenv/bin"
 
@@ -15,16 +17,16 @@ export PATH="$PATH:$HOME/.rbenv/bin"
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
 
-# Vim
-alias vi="/usr/local/bin/vim"
-alias vim="/usr/local/bin/vim"
-
 # Ruby
 eval "$(rbenv init -)"
 
 alias b="bundle"
 alias bi="b install"
 alias be="b exec"
+
+# K8s
+
+alias kctl="kubectl"
 
 # Functions
 function ccat() {
@@ -39,4 +41,12 @@ function ccat() {
   else
     cat $1
   fi
+}
+
+function useGo118() {
+  alias go="go1.18beta1"
+}
+
+function dockkill() {
+  bash ~/dockkill.bash 
 }

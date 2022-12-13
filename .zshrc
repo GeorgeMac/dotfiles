@@ -1,10 +1,17 @@
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
+DISABLE_MAGIC_FUNCTIONS=true
 
 export ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME="robbyrussell"
+ZSH_THEME="robby-custom"
+
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH="`go env GOPATH`/bin:$PATH"
+export PATH="$HOME/overrides/bin:$PATH"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 
 case "$(uname)" in
   "Darwin")
@@ -19,11 +26,24 @@ esac
 
 source $ZSH/oh-my-zsh.sh
 
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+        eval "$("$BASE16_SHELL/profile_helper.sh")"
+
 # User configuration
 export EDITOR='vim'
-export GOPATH="$HOME/go"
-export PATH="$GOPATH/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"
 export GPG_TTY=$(tty)
+export GO111MODULE=on
+
+function betaGo() {
+  if [[ `pwd` =~ "github/TruceRPC/truce" ]]; then
+    export PATH="$HOME/override:$PATH"
+  fi
+}
+
+betaGo
 
 # Local Settings
 export LC_ALL="en_GB.UTF-8"
@@ -32,6 +52,15 @@ export LANG="en_GB.UTF-8"
 
 # Git
 alias glo="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+function gmb() {
+  git checkout -b "gm/$1"
+}
+
+function gcz() {
+  git checkout $(git branch | fzf | tr -d '[:space:]')
+}
+
+alias cdr="cd $(git rev-parse --show-toplevel)"
 
 # Docker Related
 alias dm="docker-machine"
@@ -45,3 +74,14 @@ alias reload=". ~/.zshrc"
 alias oack="ack --output='\$1'"
 alias gack="ack --ignore-dir vendor"
 alias railsack="ack --ignore-dir db --ignore-dir log --ignore-dir tmp --ignore-dir .rbenv"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/georgemac/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/georgemac/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/georgemac/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/georgemac/google-cloud-sdk/completion.zsh.inc'; fi
+
+function unescape {
+  echo $1 | sed 's/\\t/    /g' | sed 's/\\n/☃/g' | tr '☃' '\n' | sed 's/\\//g'
+}
+
