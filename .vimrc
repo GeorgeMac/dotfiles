@@ -57,6 +57,8 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'yuezk/vim-js'
 Plugin 'maxmellon/vim-jsx-pretty'
 
+Plugin 'towolf/vim-helm'
+
 call vundle#end()
 
 """ Misc

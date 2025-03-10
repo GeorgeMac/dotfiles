@@ -33,17 +33,11 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
         eval "$("$BASE16_SHELL/profile_helper.sh")"
 
 # User configuration
+alias vi="nvim"
+alias vim="nvim"
 export EDITOR='vim'
 export GPG_TTY=$(tty)
 export GO111MODULE=on
-
-function betaGo() {
-  if [[ `pwd` =~ "github/TruceRPC/truce" ]]; then
-    export PATH="$HOME/override:$PATH"
-  fi
-}
-
-betaGo
 
 # Local Settings
 export LC_ALL="en_GB.UTF-8"
