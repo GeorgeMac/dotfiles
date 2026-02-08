@@ -29,7 +29,7 @@ call plug#end()
 filetype plugin indent on
 syntax on
 
-colorscheme base16-kimber
+colorscheme base16-gruvbox-dark-medium
 
 let mapleader = ","
 let maplocalleader = ","

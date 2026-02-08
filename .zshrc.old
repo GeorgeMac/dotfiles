@@ -14,15 +14,10 @@ setopt SHARE_HISTORY
 bindkey -e
 
 # ============================================================================
-# Completion System (with daily cache for speed)
+# Completion System
 # ============================================================================
 autoload -Uz compinit
-# Only regenerate compinit cache once per day
-if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
-  compinit
-else
-  compinit -C  # skip security check, use cache
-fi
+compinit
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -53,17 +48,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # Kubernetes (krew)
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-# Node (nvm) - lazy loaded for fast shell startup
+# Node (nvm)
 export NVM_DIR="$HOME/.nvm"
-nvm() {
-  unset -f nvm node npm npx
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
-  nvm "$@"
-}
-node() { nvm use default >/dev/null; node "$@"; }
-npm() { nvm use default >/dev/null; npm "$@"; }
-npx() { nvm use default >/dev/null; npx "$@"; }
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
 
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
@@ -115,127 +103,8 @@ alias zshrc="$EDITOR ~/.zshrc"
 alias vimrc="$EDITOR ~/.vimrc"
 alias reload=". ~/.zshrc"
 
-# Git (oh-my-zsh style)
-function git_current_branch() { git symbolic-ref --short HEAD 2>/dev/null; }
-function git_main_branch() {
-  command git rev-parse --git-dir &>/dev/null || return
-  local ref
-  for ref in refs/{heads,remotes/{origin,upstream}}/{main,trunk,mainline,default,master}; do
-    if command git show-ref -q --verify "$ref"; then
-      echo "${ref##*/}"
-      return 0
-    fi
-  done
-  echo master
-}
-
-# basics
-alias g='git'
-alias gst='git status'
-alias gss='git status --short'
-
-# add
-alias ga='git add'
-alias gaa='git add --all'
-alias gapa='git add --patch'
-
-# branch
-alias gb='git branch'
-alias gba='git branch --all'
-alias gbd='git branch --delete'
-alias gbD='git branch --delete --force'
-alias gbr='git branch --remote'
-
-# checkout / switch
-alias gco='git checkout'
-alias gcb='git checkout -b'
-alias gcm='git checkout $(git_main_branch)'
-alias gsw='git switch'
-alias gswc='git switch --create'
-alias gswm='git switch $(git_main_branch)'
-
-# commit
-alias gc='git commit --verbose'
-alias gca='git commit --verbose --all'
-alias 'gca!'='git commit --verbose --all --amend'
-alias 'gc!'='git commit --verbose --amend'
-alias gcmsg='git commit --message'
-alias gcam='git commit --all --message'
-
-# diff
-alias gd='git diff'
-alias gds='git diff --staged'
-alias gdca='git diff --cached'
-alias gdw='git diff --word-diff'
-
-# fetch
-alias gf='git fetch'
-alias gfa='git fetch --all --tags --prune'
-alias gfo='git fetch origin'
-
-# log
+# Git
 alias glo="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
-alias glog='git log --oneline --decorate --graph'
-alias gloga='git log --oneline --decorate --graph --all'
-alias glol='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset"'
-alias glola='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset" --all'
-alias glg='git log --stat'
-
-# merge
-alias gm='git merge'
-alias gma='git merge --abort'
-alias gmom='git merge origin/$(git_main_branch)'
-
-# pull / push
-alias gl='git pull'
-alias gpr='git pull --rebase'
-alias gprom='git pull --rebase origin $(git_main_branch)'
-alias gp='git push'
-alias gpf='git push --force-with-lease'
-alias 'gpf!'='git push --force'
-alias gpsup='git push --set-upstream origin $(git_current_branch)'
-alias ggpull='git pull origin "$(git_current_branch)"'
-alias ggpush='git push origin "$(git_current_branch)"'
-
-# rebase
-alias grb='git rebase'
-alias grba='git rebase --abort'
-alias grbc='git rebase --continue'
-alias grbi='git rebase --interactive'
-alias grbm='git rebase $(git_main_branch)'
-alias grbom='git rebase origin/$(git_main_branch)'
-
-# reset
-alias grh='git reset'
-alias grhh='git reset --hard'
-alias groh='git reset origin/$(git_current_branch) --hard'
-
-# restore
-alias grs='git restore'
-alias grst='git restore --staged'
-
-# stash
-alias gsta='git stash push'
-alias gstp='git stash pop'
-alias gstaa='git stash apply'
-alias gstl='git stash list'
-alias gstd='git stash drop'
-alias gsts='git stash show --patch'
-
-# remote
-alias gr='git remote'
-alias grv='git remote --verbose'
-
-# misc
-alias gsh='git show'
-alias gcp='git cherry-pick'
-alias gcpa='git cherry-pick --abort'
-alias gcpc='git cherry-pick --continue'
-alias gbl='git blame -w'
-alias grf='git reflog'
-alias gclean='git clean --interactive -d'
-alias grm='git rm'
-alias grmc='git rm --cached'
 
 # Kubernetes
 alias k="kubectl"
@@ -288,19 +157,10 @@ function unescape() {
 [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ] && . "$HOME/google-cloud-sdk/path.zsh.inc"
 [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ] && . "$HOME/google-cloud-sdk/completion.zsh.inc"
 
-# Completions for CLI tools (cached for speed)
-# Regenerate with: rm ~/.zsh_completion_cache/*
-_cache_completion() {
-  local cmd=$1 cache_file="$HOME/.zsh_completion_cache/_$cmd"
-  mkdir -p "$HOME/.zsh_completion_cache"
-  if [[ ! -f "$cache_file" ]] && command -v "$cmd" >/dev/null; then
-    "$cmd" completion zsh > "$cache_file" 2>/dev/null
-  fi
-  [[ -f "$cache_file" ]] && source "$cache_file"
-}
-_cache_completion flux
-_cache_completion cue
-_cache_completion kubectl
+# Completions for CLI tools
+command -v flux >/dev/null && . <(flux completion zsh)
+command -v cue >/dev/null && . <(cue completion zsh)
+command -v kubectl >/dev/null && . <(kubectl completion zsh)
 
 # Base16 Shell (colors)
 BASE16_SHELL="$HOME/.config/base16-shell/"

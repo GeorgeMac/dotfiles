@@ -12,6 +12,7 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH="/Users/georgemac/.cargo/bin:$PATH"
 export PATH="$HOME/dist/go/bin:$PATH"
 export PATH="$PATH:$HOME/.rbenv/bin"
+export PATH="$PATH:/Users/georgemac/.local/bin"
 
 # Node
 export NVM_DIR="$HOME/.nvm"
